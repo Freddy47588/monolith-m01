@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="obsidian">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MONOLITH M-01 // Tactile Generative Synthesizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="studio-backdrop" aria-hidden="true"></div>
+
+  <main class="page-shell">
+    <!-- Hardware Chassis -->
+    <section class="chassis" aria-label="Monolith M-01 Synthesizer">
+      <!-- Corner Industrial Screws -->
+      <span class="screw screw-tl" aria-hidden="true"></span>
+      <span class="screw screw-tr" aria-hidden="true"></span>
+      <span class="screw screw-bl" aria-hidden="true"></span>
+      <span class="screw screw-br" aria-hidden="true"></span>
+
+      <!-- Top Header / Cartridge Bar -->
+      <header class="chassis-header">
+        <div class="brand-lockup">
+          <div class="brand-badge">M-01</div>
+          <div>
+            <h1 class="brand-title">MONOLITH <span class="brand-sub">FIELD SYNTHESIZER</span></h1>
+            <p class="brand-meta">FM + SUBTRACTIVE ENGINE // 16-STEP EUCLIDEAN SEQUENCER</p>
+          </div>
+        </div>
+
+        <div class="header-controls">
+          <div class="cartridge-rack" role="group" aria-label="Sound Cartridges">
+            <button class="cartridge-btn active" data-preset="0">
+              <span class="cart-num">01</span>
+              <span class="cart-name">KYOTO RAIN</span>
+            </button>
+            <button class="cartridge-btn" data-preset="1">
+              <span class="cart-num">02</span>
+              <span class="cart-name">ORBITAL 84</span>
+            </button>
+            <button class="cartridge-btn" data-preset="2">
+              <span class="cart-num">03</span>
+              <span class="cart-name">KINETIC DUB</span>
+            </button>
+            <button class="cartridge-btn" data-preset="3">
+              <span class="cart-num">04</span>
+              <span class="cart-name">AURORA DRIFT</span>
+            </button>
+          </div>
+
+          <button id="themeToggle" class="hw-pill-btn" title="Switch Chassis Finish" aria-label="Switch Chassis Theme">
+            <span class="led led-amber"></span>
+            <span id="themeLabel">OBSIDIAN</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Upper Module Deck: OLED Screen + Knobs + XY Pad -->
+      <div class="upper-deck">
+        <!-- Recessed Glass OLED Display -->
+        <section class="oled-housing" aria-label="OLED Telemetry Display">
+          <div class="oled-bezel">
+            <div class="oled-top-bar">
+              <span class="oled-tag" id="oledPresetTag">CART 01 // KYOTO RAIN</span>
+              <span class="oled-status" id="oledAudioStatus">STANDBY</span>
+            </div>
+            <canvas id="oledCanvas" width="640" height="320"></canvas>
+            <div class="oled-scanlines" aria-hidden="true"></div>
+            <div class="oled-bottom-bar">
+              <span id="oledNoteReadout">NOTE: --</span>
+              <span id="oledParamReadout">FLT 2400Hz // DLY 32%</span>
+              <span id="oledBpmReadout">112 BPM</span>
+            </div>
+          </div>
+
+          <div class="oled-mode-strip" role="group" aria-label="Visualizer Mode">
+            <button class="mode-btn active" data-vis="scope">SCOPE</button>
+            <button class="mode-btn" data-vis="spectrum">SPECTRUM</button>
+            <button class="mode-btn" data-vis="lissajous">LISSAJOUS</button>
+            <button class="mode-btn" data-vis="terrain">TERRAIN</button>
+          </div>
+        </section>
+
+        <!-- Transport & Precision Encoders -->
+        <section class="control-deck" aria-label="Synth Parameters">
+          <div class="transport-row">
+            <button id="playBtn" class="play-switch" aria-pressed="false">
+              <span class="led led-play" id="playLed"></span>
+              <span id="playBtnText">PLAY</span>
+            </button>
+            <button id="mutateBtn" class="action-key key-accent" title="Generate new melodic & Euclidean variation">
+              <span>MUTATE</span>
+            </button>
+            <button id="euclidBtn" class="action-key" title="Cycle Euclidean drum density">
+              <span>EUCLID</span>
+            </button>
+            <button id="clearBtn" class="action-key" title="Clear sequence">
+              <span>CLR</span>
+            </button>
+          </div>
+
+          <div class="knobs-grid">
+            <div class="knob-unit">
+              <div
+                class="knob"
+                data-param="bpm"
+                data-min="60"
+                data-max="165"
+                data-value="112"
+                data-default="112"
+                data-unit=" BPM"
+                role="slider"
+                tabindex="0"
+                aria-label="Tempo BPM"
+              >
+                <div class="knob-cap"><span class="knob-pointer"></span></div>
+              </div>
+              <span class="knob-label">TEMPO</span>
+              <span class="knob-val" id="val-bpm">112</span>
+            </div>
+
+            <div class="knob-unit">
+              <div
+                class="knob"
+                data-param="cutoff"
+                data-min="180"
+                data-max="9500"
+                data-value="2400"
+                data-default="2400"
+                data-unit=" Hz"
+                data-curve="exp"
+                role="slider"
+                tabindex="0"
+                aria-label="Filter Cutoff"
+              >
+                <div class="knob-cap"><span class="knob-pointer"></span></div>
+              </div>
+              <span class="knob-label">CUTOFF</span>
+              <span class="knob-val" id="val-cutoff">2.4k</span>
+            </div>
+
+            <div class="knob-unit">
+              <div
+                class="knob"
+                data-param="fm"
+                data-min="0"
+                data-max="100"
+                data-value="28"
+                data-default="28"
+                data-unit="%"
+                role="slider"
+                tabindex="0"
+                aria-label="FM Depth"
+              >
+                <div class="knob-cap"><span class="knob-pointer"></span></div>
+              </div>
+              <span class="knob-label">FM DEPTH</span>
+              <span class="knob-val" id="val-fm">28%</span>
+            </div>
+
+            <div class="knob-unit">
+              <div
+                class="knob"
+                data-param="delay"
+                data-min="0"
+                data-max="85"
+                data-value="32"
+                data-default="32"
+                data-unit="%"
+                role="slider"
+                tabindex="0"
+                aria-label="Delay Mix"
+              >
+                <div class="knob-cap"><span class="knob-pointer"></span></div>
+              </div>
+              <span class="knob-label">SPACE</span>
+              <span class="knob-val" id="val-delay">32%</span>
+            </div>
+
+            <div class="knob-unit">
+              <div
+                class="knob"
+                data-param="drift"
+                data-min="0"
+                data-max="100"
+                data-value="24"
+                data-default="24"
+                data-unit="%"
+                role="slider"
+                tabindex="0"
+                aria-label="Analog Tape Drift"
+              >
+                <div class="knob-cap"><span class="knob-pointer"></span></div>
+              </div>
+              <span class="knob-label">DRIFT</span>
+              <span class="knob-val" id="val-drift">24%</span>
+            </div>
+
+            <div class="knob-unit">
+              <div
+                class="knob"
+                data-param="volume"
+                data-min="0"
+                data-max="100"
+                data-value="78"
+                data-default="78"
+                data-unit="%"
+                role="slider"
+                tabindex="0"
+                aria-label="Master Volume"
+              >
+                <div class="knob-cap"><span class="knob-pointer"></span></div>
+              </div>
+              <span class="knob-label">MASTER</span>
+              <span class="knob-val" id="val-volume">78%</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- XY Modulation Touchpad -->
+        <section class="xypad-housing" aria-label="XY Expression Pad">
+          <div class="xypad-header">
+            <span>XY MOD MATRIX</span>
+            <span class="xy-coords" id="xyCoords">X 0.52 / Y 0.38</span>
+          </div>
+          <div class="xypad-surface" id="xyPad">
+            <canvas id="xyCanvas" width="240" height="240"></canvas>
+            <div class="xy-crosshair-x" id="xyCrossX"></div>
+            <div class="xy-crosshair-y" id="xyCrossY"></div>
+            <div class="xy-puck" id="xyPuck"></div>
+          </div>
+          <div class="xypad-footer">
+            <span>X: FILTER SWEEP</span>
+            <span>Y: RESONANCE + ECHO</span>
+          </div>
+        </section>
+      </div>
+
+      <!-- 16-Step Polyphonic + Percussion Sequencer -->
+      <section class="sequencer-section" aria-label="16-Step Sequencer">
+        <div class="section-label-row">
+          <span class="section-tag">16-STEP MATRIX // SYNTH + PERCUSSION</span>
+          <span class="section-hint">CLICK CELLS TO TOGGLE // SHIFT-CLICK SYNTH STEP TO CYCLE OCTAVE</span>
+        </div>
+
+        <div class="seq-grid" id="seqGrid">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </section>
+
+      <!-- Playable Tactile Keyboard -->
+      <section class="keyboard-section" aria-label="Playable Keyboard">
+        <div class="section-label-row">
+          <span class="section-tag">LIVE PERFORMANCE KEYBED</span>
+          <span class="section-hint">QWERTY KEYS: A S D F G H J K L ; (WHITE) // W E T Y U O P (SHARP)</span>
+        </div>
+        <div class="keybed" id="keybed">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </section>
+
+      <footer class="chassis-footer">
+        <span>WEB AUDIO SYNTHESIS // ZERO EXTERNAL SAMPLES</span>
+        <span>DRAG KNOBS VERTICALLY OR SCROLL // DOUBLE-CLICK KNOB TO RESET</span>
+      </footer>
+    </section>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
