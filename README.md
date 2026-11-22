@@ -4,8 +4,8 @@
   <p><strong>Tactile FM &amp; Subtractive Synthesizer · 16-Step Euclidean Sequencer · Real-Time OLED Visualizer</strong></p>
 
   <p>
-    <a href="https://freddy47588.github.io/monolith-m01/">
-      <img src="https://img.shields.io/badge/▶%20LIVE%20DEMO-GitHub%20Pages-ff5e26?style=for-the-badge" alt="Live Demo" />
+    <a href="https://monolith-m01.pages.dev">
+      <img src="https://img.shields.io/badge/▶%20LIVE%20DEMO-Cloudflare%20Pages-ff5e26?style=for-the-badge&logo=cloudflarepages&logoColor=white" alt="Live Demo" />
     </a>
     <img src="https://img.shields.io/badge/Engine-Web%20Audio%20API-36e2b4?style=for-the-badge" alt="Web Audio API" />
     <img src="https://img.shields.io/badge/Dependencies-Zero-1a1c22?style=for-the-badge" alt="Zero Dependencies" />
